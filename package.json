@@ -2,10 +2,10 @@
     "name": "blockchain-tfm",
     "version": "1.0.0",
     "description": "",
-    "type": "module",
-    "main": "p2p.js",
+    "main": "out.js",
     "scripts": {
-        "start": "node p2p.js",
+        "start": "node server.js",
+        "build": "esbuild server.js --bundle --platform=node --format=esm --outfile=out.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -13,7 +13,10 @@
     "license": "ISC",
     "dependencies": {
         "discovery-swarm": "^6.1.0",
-        "get-port": "^6.1.2"
+        "esbuild": "^0.14.23",
+        "express": "^4.17.3",
+        "get-port": "^6.1.2",
+        "ws": "^8.5.0"
     },
     "engines": {
         "yarn": "1.x",

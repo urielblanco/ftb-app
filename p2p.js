@@ -14,6 +14,7 @@ const config = {
 };
 
 const swarm = Swarm(config);
+console.log(swarm);
 
 (async () => {
     const port = await getPort();
@@ -23,6 +24,7 @@ const swarm = Swarm(config);
 
     swarm.join(channel);
     swarm.on('connection', (conn, info) => {
+        console.log(conn, info);
         const seq = connSeq;
         const peerId = info.id.toString('hex');
         console.log(`Connected #${seq} to peer: ${peerId}`);
