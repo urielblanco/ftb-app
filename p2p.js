@@ -14,7 +14,6 @@ const config = {
 };
 
 const swarm = Swarm(config);
-console.log(swarm);
 
 (async () => {
     const port = await getPort();
