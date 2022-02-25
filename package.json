@@ -14,5 +14,9 @@
     "dependencies": {
         "discovery-swarm": "^6.1.0",
         "get-port": "^6.1.2"
+    },
+    "engines": {
+        "npm": ">=7.0.0",
+        "node": ">=16.0.0"
     }
 }
