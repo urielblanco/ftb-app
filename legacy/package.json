@@ -2,21 +2,20 @@
     "name": "blockchain-tfm",
     "version": "1.0.0",
     "description": "",
-    "main": "out.js",
+    "main": "server.js",
+    "type": "module",
     "scripts": {
         "start": "node server.js",
-        "build": "esbuild server.js --bundle --platform=node --format=esm --outfile=out.js",
+        "dev": "nodemon server.js",
+        "build": "cd client && npm run build",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "discovery-swarm": "^6.1.0",
-        "esbuild": "^0.14.23",
         "express": "^4.17.3",
-        "get-port": "^6.1.2",
-        "ws": "^8.5.0"
+        "nodemon": "^2.0.15"
     },
     "engines": {
         "yarn": "1.x",
