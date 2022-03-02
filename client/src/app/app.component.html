@@ -1,1 +1,66 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <ng-container *ngIf="!(isAuthenticated | async)">
+        <a mat-list-item routerLink="/login" routerLinkActive="active-link">
+          <mat-icon mat-list-icon>login</mat-icon>
+          Ingresar
+        </a>
+        <mat-divider></mat-divider>
+      </ng-container>
+      <a
+        mat-list-item
+        routerLink="/documents"
+        routerLinkActive="active-link"
+      >
+        <mat-icon mat-list-icon>assignment</mat-icon>
+        Documentos
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+
+      <span class="title">Food Tracking</span>
+      <span class="spacer"></span>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="user menu"
+        *ngIf="isAuthenticated | async"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Perfil</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar Sesión</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
