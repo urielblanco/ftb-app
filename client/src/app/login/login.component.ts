@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 
 @Component({
@@ -8,9 +9,10 @@ import { AuthService } from '../core/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
+  userSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -33,9 +35,26 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    console.log(this.loginForm.value);
 
-    this.authService.login({ name: 'admin', role: 'admin' });
-    this.router.navigate(['/profile']);
+    const { email, password } = this.loginForm.value
+
+    this.userSubscription = this.authService.login(email, password)
+      .subscribe({
+        next: (resp: any) => {
+          this.authService.setLocalUser(resp.data.user);
+          this.router.navigate(['/profile']);
+        },
+        error: (err) => {
+          console.log('💥 Failed authenticated the user!');
+          console.log(err.message);
+        }
+      });
+
+
+
+  }
+
+  ngOnDestroy() {
+
   }
 }
