@@ -1,1 +1,41 @@
-<p>login works!</p>
+<div class="container">
+  <h1 class="login__header">Ingresá a tu cuenta</h1>
+
+  <form
+    class="login__form"
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+    novalidate
+  >
+    <mat-form-field class="form__control" appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        type="email"
+        matInput
+        formControlName="email"
+        placeholder="Ex. pat@example.com"
+      />
+  <!--     <mat-error *ngIf="email.errors && email.errors.email">
+        Por favor ingrese un email valido
+      </mat-error> 
+      <mat-error *ngIf="">
+        El email es <strong>requerido</strong>
+      </mat-error> -->
+    </mat-form-field>
+
+    <mat-form-field class="form__control" appearance="fill">
+      <mat-label>Contraseña</mat-label>
+      <input type="password" matInput formControlName="password" />
+      <!--         <mat-error *ngIf="email.errors && email.errors.email">
+        Por favor ingrese un email valido
+      </mat-error>
+      <mat-error *ngIf="email.errors && email.errors?['required']">
+        El email es <strong>requerido</strong>
+      </mat-error> -->
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
+      Ingresar
+    </button>
+  </form>
+</div>

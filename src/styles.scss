@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  position: relative;
+  min-height: 100vh;
+  font-size: 100%;
+  line-height: 1.5;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+.title {
+  margin: 0 1rem;
+}
+
+.btn--login {
+  margin: 0 1rem;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 220px;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.active-link {
+  background-color: #eee;
+}

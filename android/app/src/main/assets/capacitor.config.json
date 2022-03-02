@@ -1,0 +1,6 @@
+{
+	"appId": "com.ftb.app",
+	"appName": "ftb-app",
+	"webDir": "dist/ftb-app",
+	"bundledWebRuntime": false
+}
