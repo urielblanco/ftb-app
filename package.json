@@ -4,8 +4,8 @@
     "description": "A blockchain to food traceability",
     "main": "index.js",
     "scripts": {
-        "deploy:client": "git subtree push --prefix client origin heroku",
-        "deploy:server": "git subtree push --prefix server origin heroku-server"
+        "deploy:client": "git subtree push --prefix client heroku master",
+        "deploy:server": "git subtree push --prefix server heroku-server master"
     },
     "repository": {
         "type": "git",

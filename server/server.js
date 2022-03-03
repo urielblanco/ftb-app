@@ -9,8 +9,11 @@ process.on('uncaughtException', (err) => {
     process.exit(1);
 });
 
+const databaseUrl =
+    process.env.NODE_ENV === 'development' ? process.env.DATABASE_URL_LOCAL : process.env.DATABASE_URL_PRODUCTION;
+
 mongoose
-    .connect('mongodb://localhost:27017/ftb-admin', {
+    .connect(databaseUrl, {
         useUnifiedTopology: true
     })
     .then(() => console.log('Connected to DB'))
