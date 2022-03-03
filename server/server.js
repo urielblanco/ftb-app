@@ -9,7 +9,7 @@ process.on('uncaughtException', (err) => {
     process.exit(1);
 });
 
-const databaseUrl =
+/* const databaseUrl =
     process.env.NODE_ENV === 'development' ? process.env.DATABASE_URL_LOCAL : process.env.DATABASE_URL_PRODUCTION;
 
 mongoose
@@ -17,7 +17,8 @@ mongoose
         useUnifiedTopology: true
     })
     .then(() => console.log('Connected to DB'))
-    .catch(console.error);
+    .catch(console.error); */
+import './database/mongo-connection.js';
 
 const port = process.env.PORT || 3000;
 

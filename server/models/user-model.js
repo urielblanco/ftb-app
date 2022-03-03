@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { provenDB } from '../database/mongo-connection.js';
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -20,9 +21,14 @@ const userSchema = new mongoose.Schema({
             values: ['admin', 'client'],
             message: 'Role is either: admin or client'
         }
+    },
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
     }
 });
 
-const User = mongoose.model('user', userSchema);
+const User = provenDB.model('user', userSchema);
 
 export { User };

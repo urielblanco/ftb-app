@@ -8,10 +8,14 @@ import { environment } from '../../../environments/environment'
 })
 export class AuthService {
 
-  user: any = null;
+  user: any;
   isLoginSubject = new BehaviorSubject<boolean>(this.hasUser());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    if (this.hasUser()) {
+      this.user = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    }
+  }
 
   public isAuthenticated(): Observable<boolean> {
     return this.isLoginSubject.asObservable();

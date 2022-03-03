@@ -1,1 +1,15 @@
-<div>Profile works!</div>
+<h1 class="header">Perfil de Usuario</h1>
+
+<mat-list *ngIf="user">
+  <div mat-subheader>
+    {{ user.role === "admin" ? "Nombre" : "Organización" }}
+  </div>
+  <mat-list-item>
+    {{ user.name | titlecase }}
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <div mat-subheader>Rol</div>
+  <mat-list-item>
+		{{user.role === "admin" ? "Administrador" : "Cliente"}}
+  </mat-list-item>
+</mat-list>

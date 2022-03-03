@@ -30,7 +30,13 @@ const signUpUser = catchAsync(async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     // now we set user password to hashed password
     user.password = await bcrypt.hash(user.password, salt);
-    user.save().then((doc) => res.status(201).send(doc));
+    user.save().then((user) => {
+        user.password = undefined;
+        res.status(201).json({
+            status: 'success',
+            data: { user }
+        });
+    });
 });
 
 export { logInUser, signUpUser };

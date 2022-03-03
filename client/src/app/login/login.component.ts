@@ -20,9 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.buildForm();
   }
 
-  ngOnInit(): void {
-    console.log(this.loginForm.get('email'))
-  }
+  ngOnInit(): void {}
 
   private buildForm(): any {
     this.loginForm = this.formBuilder.group({
@@ -42,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.authService.setLocalUser(resp.data.user);
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/documents']);
         },
         error: (err) => {
           console.log('💥 Failed authenticated the user!');
