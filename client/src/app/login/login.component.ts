@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
+import { NavbarService } from '../core/services/navbar.service';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +17,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
+    private navbarService: NavbarService,
     private router: Router) {
     this.buildForm();
+    this.navbarService.setModeNavigator('Identificarse');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   private buildForm(): any {
     this.loginForm = this.formBuilder.group({

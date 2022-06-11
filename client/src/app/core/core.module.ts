@@ -13,7 +13,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MaterialModule
   ],
   exports: [
-    MaterialModule,
+    FlexLayoutModule,
+    MaterialModule
   ]
 })
 export class CoreModule { }

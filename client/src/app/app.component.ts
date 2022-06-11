@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from './core/services/auth.service';
 import { Router } from '@angular/router';
+import { NavbarService } from './core/services/navbar.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,7 +22,8 @@ export class AppComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,
     public authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    public navbarService: NavbarService) {
     this.isAuthenticated = authService.isAuthenticated();
   }
 

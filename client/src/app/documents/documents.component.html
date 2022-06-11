@@ -1,1 +1,118 @@
-<p>documents works!</p>
+<div class="container">
+  <mat-form-field appearance="standard">
+    <mat-label>Filtro</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Nombre..."
+      #input
+    />
+  </mat-form-field>
+
+  <div class="mat-elevation-z8 table-container">
+    <div class="fab fab--add" *ngIf="isAuthenticated | async">
+      <button
+        mat-fab
+        color="accent"
+        aria-label="Create new document"
+        (click)="createDocument()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            *ngIf="row.state === 'blockchain'"
+            [ngClass]="{
+              green: row.state === 'blockchain',
+              grey: row.state === 'pending'
+            }"
+            mat-icon-button
+            matTooltip="Registrado en la blockchain"
+          >
+            <mat-icon>verified</mat-icon>
+          </button>
+          <button
+            *ngIf="row.state !== 'blockchain'"
+            [ngClass]="{
+              green: row.state === 'blockchain',
+              grey: row.state === 'pending'
+            }"
+            mat-icon-button
+            matTooltip="Registro pendiente"
+          >
+            <mat-icon>pending_actions</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.technicalSheet.descriptionInput }}
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+        <td mat-cell *matCellDef="let row">
+          <!--  <button mat-button color="primary">
+            <mat-icon>visibility</mat-icon>
+            Ver
+          </button>
+          <button mat-button color="primary">
+            <mat-icon>edit_note</mat-icon>
+            Editar
+          </button> -->
+          <ng-container>
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu2"
+              aria-label="doc menu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu2="matMenu">
+              <button mat-menu-item [routerLink]="[row._id]">
+                <mat-icon>visibility</mat-icon>
+                <span>Detalle</span>
+              </button>
+              <mat-divider *ngIf="row.state === 'blockchain'"></mat-divider>
+              <button mat-menu-item *ngIf="isAuthenticated | async">
+                <mat-icon>edit_note</mat-icon>
+                <span>Editar</span>
+              </button>
+              <button
+                mat-menu-item
+                *ngIf="row.state === 'blockchain'"
+                (click)="openDialog()"
+              >
+                <mat-icon>qr_code</mat-icon>
+                <span>Código QR</span>
+              </button>
+            </mat-menu>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          No data matching the filter "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 100]"
+      aria-label="Select page of documents"
+    ></mat-paginator>
+  </div>
+</div>

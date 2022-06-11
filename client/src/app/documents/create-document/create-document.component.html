@@ -1,0 +1,400 @@
+<div class="container">
+  <mat-stepper orientation="vertical" [linear]="false" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup" novalidate>
+        <ng-template matStepLabel>Ficha técnica</ng-template>
+        <mat-form-field class="form__control" appearance="fill">
+          <mat-label>Descripción del producto</mat-label>
+          <textarea
+            matInput
+            placeholder="Descripción..."
+            formControlName="descriptionInput"
+          ></textarea>
+        </mat-form-field>
+
+        <h3 class="stepper__title">Ingredientes</h3>
+        <ng-container
+          *ngFor="let ingredientForm of ingredients.controls; let i = index"
+        >
+          <ul class="stepper__list">
+            <li>
+              <span>{{ ingredientForm.value | titlecase }}</span>
+              <button
+                mat-icon-button
+                aria-label="Eliminar ingrediente"
+                (click)="deleteIngredient(i)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </li>
+          </ul>
+        </ng-container>
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre del ingrediente</mat-label>
+          <input
+            matInput
+            placeholder="Trigo..."
+            #ingredient
+            formControlName="ingredientInput"
+          />
+        </mat-form-field>
+        <div class="stepper__add">
+          <button
+            mat-mini-fab
+            color="accent"
+            aria-label="Add ingredients"
+            [disabled]="ingredient.value.length === 0"
+            (click)="addIngredient(ingredient.value)"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <h3 class="stepper__title">Ingredientes alergénicos</h3>
+        <ng-container *ngFor="let allergen of allergensList; let i = index">
+          <p class="stepper__checkbox" (click)="addAllergen(i)">
+            <mat-checkbox>{{ allergen }}</mat-checkbox>
+          </p>
+        </ng-container>
+        <mat-form-field appearance="fill">
+          <mat-label>Condiciones de Conservación</mat-label>
+          <input
+            matInput
+            placeholder="Condiciones..."
+            formControlName="conditionsInput"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Vida Útil</mat-label>
+          <input
+            matInput
+            placeholder="Consumo preferente..."
+            formControlName="usefulLifeInput"
+          />
+        </mat-form-field>
+        <div class="stepper__divider">
+          <mat-divider></mat-divider>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup" novalidate>
+        <ng-template matStepLabel>Trazabilidad hacia atrás</ng-template>
+        <h3 class="stepper__title">Materias Primas</h3>
+
+        <!--     <ul class="stepper__list">
+            <li>
+              <span>{{ materialCtrl.value | json }}</span>
+              <button
+                mat-icon-button
+                aria-label="Eliminar materia prima"
+                (click)="deleteRawMaterial(i)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </li>
+          </ul> -->
+        <mat-accordion class="example-headers-align" multi>
+          <ng-container
+            *ngFor="let materialCtrl of rawMaterials.controls; let i = index"
+          >
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ materialCtrl.value.nameInput }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <mat-list role="list">
+                <mat-list-item role="listitem">
+                  Ubicación:
+                  {{ materialCtrl.value.locationInput }}
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  Proveedor:
+                  {{ materialCtrl.value.providerInput }}
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  Contacto:
+                  {{ materialCtrl.value.contactInput }}
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  Lote:
+                  {{ materialCtrl.value.lotInput }}
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  Fecha de recepción:
+                  {{
+                    materialCtrl.value.dateReceptionInput | date: "shortDate"
+                  }}
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  Fecha de caducidad:
+                  {{
+                    materialCtrl.value.dateExpirationInput | date: "shortDate"
+                  }}
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  Cantidad recepcionada:
+                  {{ materialCtrl.value.quantityReceivedInput }}
+                  {{ materialCtrl.value.unitMeasurementInput | uppercase }}
+                </mat-list-item>
+              </mat-list>
+              <mat-action-row>
+                <button mat-button color="warn" (click)="deleteRawMaterial(i)">
+                  Eliminar
+                </button>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </ng-container>
+
+          <!--        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Day of the trip </mat-panel-title>
+              <mat-panel-description>
+                Inform the date you wish to travel
+                <mat-icon>date_range</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                (focus)="picker.open()"
+                readonly
+              />
+            </mat-form-field>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-expansion-panel> -->
+        </mat-accordion>
+
+        <mat-divider class="m-top"></mat-divider>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            placeholder="Agua..."
+            formControlName="materialNameInput"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Ubicación</mat-label>
+          <input matInput formControlName="materialLocationInput" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Proveedor</mat-label>
+          <input matInput formControlName="materialProviderInput" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Contacto</mat-label>
+          <input matInput formControlName="materialContactInput" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Lote</mat-label>
+          <input  matInput formControlName="materialLotInput" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de recepción</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker1"
+            formControlName="materialDateReceptionInput"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de caducidad</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker2"
+            formControlName="materialDateExpirationInput"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Cantidad recepcionada</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="materialQuantityReceivedInput"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Unidad de medida</mat-label>
+          <input
+            matInput
+            placeholder="Kg..."
+            formControlName="materialUnitMeasurementInput"
+          />
+        </mat-form-field>
+        <div class="stepper__add">
+          <button
+            mat-mini-fab
+            color="accent"
+            aria-label="Add ingredients"
+            [disabled]="!secondFormGroup.valid"
+            (click)="addRawMaterial()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="stepper__divider">
+          <mat-divider></mat-divider>
+          <button mat-button matStepperPrevious>Atrás</button>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup" novalidate>
+        <ng-template matStepLabel>Trazabilidad Interna</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Producto</mat-label>
+          <input
+            matInput
+            placeholder="Barra con aceite de oliva..."
+            formControlName="productNameInput"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha lote</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker3"
+            formControlName="dateLotInput"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker3"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de caducidad</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker4"
+            formControlName="dateExpirationInput"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker4"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker4></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Vida útil del producto (días)</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="productUsefulLifeInput"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de fabricación</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker5"
+            formControlName="dateManufacturingInput"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker5"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker5></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Cantidad fabricada (cajas)</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="quantityManufacturingInput"
+          />
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Atrás</button>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="fourthFormGroup">
+      <form [formGroup]="fourthFormGroup">
+        <ng-template matStepLabel>Trazabilidad hacia adelante</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Entrega (cajas)</mat-label>
+          <input matInput type="number" formControlName="boxInput" />
+        </mat-form-field>
+        <mat-form-field class="form__control" appearance="fill">
+          <mat-label>Cliente</mat-label>
+          <textarea
+            matInput
+            placeholder="Descripción..."
+            formControlName="clientDescriptionInput"
+          ></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Código cliente</mat-label>
+          <input matInput formControlName="clientCodeInput" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha entrega</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker6"
+            formControlName="dateInput"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker6"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker6></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Matrícula automóvil</mat-label>
+          <input matInput formControlName="carRegistrationInput" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Nº Albarán</mat-label>
+          <input matInput type="number" formControlName="deliveryNoteInput" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Diferencia expedido/fabricado</mat-label>
+          <textarea
+            matInput
+            placeholder="Descripción..."
+            formControlName="differenceInput"
+          ></textarea>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Atrás</button>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Finalizar</ng-template>
+      <p>Selecciona una de las siguientes opciones</p>
+      <div class="stepper__buttons-container">
+        <button mat-stroked-button>Cancelar</button>
+        <button mat-flat-button color="primary" (click)="saveForm()">Guardar</button>
+        <button mat-flat-button color="accent">Finalizar</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>

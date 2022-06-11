@@ -16,18 +16,17 @@
         </a>
         <mat-divider></mat-divider>
       </ng-container>
-      <a
-        mat-list-item
-        routerLink="/documents"
-        routerLinkActive="active-link"
-      >
+      <a mat-list-item routerLink="/documents" routerLinkActive="active-link">
         <mat-icon mat-list-icon>assignment</mat-icon>
         Documentos
       </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar
+      *ngIf="(navbarService.mode$ | async) === 'navigator'"
+      color="primary"
+    >
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -38,7 +37,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
 
-      <span class="title">Food Tracking</span>
+      <span class="title">{{ navbarService.title$ | async}}</span>
       <span class="spacer"></span>
       <button
         mat-icon-button
@@ -49,7 +48,11 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/profile" routerLinkActive="active-link">
+        <button
+          mat-menu-item
+          routerLink="/profile"
+          routerLinkActive="active-link"
+        >
           <mat-icon>person</mat-icon>
           <span>Perfil</span>
         </button>
@@ -59,6 +62,23 @@
           <span>Cerrar Sesión</span>
         </button>
       </mat-menu>
+    </mat-toolbar>
+
+    <mat-toolbar
+      *ngIf="(navbarService.mode$ | async) === 'editor'"
+      color="primary"
+    >
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="navbarService.back()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">arrow_back</mat-icon>
+      </button>
+
+      <span class="title">{{ navbarService.title$ | async }}</span>
+      <span class="spacer"></span>
     </mat-toolbar>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>

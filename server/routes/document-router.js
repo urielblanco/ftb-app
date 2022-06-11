@@ -5,6 +5,10 @@ const documentRouter = express.Router();
 
 documentRouter.route('/').get(documentController.getAllDocuments).post(documentController.createDocument);
 
-documentRouter.route('/:id').put(documentController.updateDocument);
+documentRouter.route('/history').get(documentController.getDocumentsHistory);
+
+documentRouter.route('/:id').put(documentController.updateDocument).get(documentController.getDocument);
+
+documentRouter.route('/history/:id').get(documentController.getDocumentHistory);
 
 export { documentRouter };
