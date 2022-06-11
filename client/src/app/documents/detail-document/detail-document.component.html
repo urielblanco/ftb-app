@@ -111,10 +111,14 @@
 
         <div mat-subheader>Fecha caducidad</div>
         <mat-list-item>
+<<<<<<< HEAD
           {{
             document?.internalTraceability?.dateExpirationInput
               | date: "shortDate"
           }}
+=======
+          {{ document?.internalTraceability?.dateExpirationInput | date: "shortDate" }}
+>>>>>>> b289a4b0ed248c0b8a6a9e5b7a036eaa019076f3
         </mat-list-item>
         <mat-divider></mat-divider>
 
@@ -126,17 +130,27 @@
 
         <div mat-subheader>Fecha de fabricación</div>
         <mat-list-item>
+<<<<<<< HEAD
           {{
             document?.internalTraceability?.dateManufacturingInput
               | date: "shortDate"
           }}
+=======
+          {{ document?.internalTraceability?.dateManufacturingInput | date: "shortDate" }}
+>>>>>>> b289a4b0ed248c0b8a6a9e5b7a036eaa019076f3
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <div mat-subheader>Cantidad fabricadas (cajas)</div>
         <mat-list-item>
+<<<<<<< HEAD
           {{ document?.internalTraceability?.quantityManufacturingInput }}
         </mat-list-item>
+=======
+          {{ document?.internalTraceability?.quantityManufacturingInput}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+>>>>>>> b289a4b0ed248c0b8a6a9e5b7a036eaa019076f3
       </mat-list>
     </mat-expansion-panel>
 
@@ -153,13 +167,21 @@
 
         <div mat-subheader>Cliente</div>
         <mat-list-item>
+<<<<<<< HEAD
           {{ document?.forwardTraceability?.clientDescriptionInput }}
+=======
+          {{ document?.forwardTraceability?.clientDescriptionInput}}
+>>>>>>> b289a4b0ed248c0b8a6a9e5b7a036eaa019076f3
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <div mat-subheader>Código cliente</div>
         <mat-list-item>
+<<<<<<< HEAD
           {{ document?.forwardTraceability?.clientCodeInput }}
+=======
+          {{ document?.forwardTraceability?.clientCodeInput}}
+>>>>>>> b289a4b0ed248c0b8a6a9e5b7a036eaa019076f3
         </mat-list-item>
         <mat-divider></mat-divider>
 
@@ -177,14 +199,24 @@
 
         <div mat-subheader>Nº Albarán</div>
         <mat-list-item>
+<<<<<<< HEAD
           {{ document?.forwardTraceability?.deliveryNoteInput }}
+=======
+          {{ document?.forwardTraceability?.deliveryNoteInput}}
+>>>>>>> b289a4b0ed248c0b8a6a9e5b7a036eaa019076f3
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <div mat-subheader>Diferencia expendido/fabricado</div>
         <mat-list-item>
+<<<<<<< HEAD
           {{ document?.forwardTraceability?.differenceInput }}
         </mat-list-item>
+=======
+          {{ document?.forwardTraceability?.differenceInput}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+>>>>>>> b289a4b0ed248c0b8a6a9e5b7a036eaa019076f3
       </mat-list>
     </mat-expansion-panel>
   </mat-accordion>
