@@ -1,0 +1,186 @@
+<h1 class="header">{{ document?.technicalSheet?.descriptionInput }}</h1>
+<div class="container">
+  <mat-accordion multi>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Ficha técnica </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <ng-container *ngIf="document?.technicalSheet?.ingredients.length > 0">
+          <div mat-subheader>Ingredientes</div>
+          <mat-list-item
+            *ngFor="let ingredient of document?.technicalSheet?.ingredients"
+          >
+            {{ ingredient }}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </ng-container>
+
+        <ng-container *ngIf="document?.technicalSheet?.allergens.length > 0">
+          <div mat-subheader>Ingredientes alergénicos</div>
+          <mat-list-item
+            *ngFor="let index of document?.technicalSheet?.allergens"
+          >
+            {{ allergensList[index] }}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </ng-container>
+
+        <div mat-subheader>Vida Útil</div>
+        <mat-list-item>
+          {{ document?.technicalSheet?.usefulLifeInput }}
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Condiciones</div>
+        <mat-list-item>
+          {{ document?.technicalSheet?.conditionsInput }}
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Trazabilidad hacia atrás </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container
+        *ngIf="document?.backwardTraceability?.rawMaterials.length > 0"
+      >
+        <mat-expansion-panel
+          *ngFor="let material of document?.backwardTraceability?.rawMaterials"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ material.nameInput }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <mat-list role="list">
+            <mat-list-item role="listitem">
+              Ubicación:
+              {{ material.locationInput }}
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              Proveedor:
+              {{ material.providerInput }}
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              Contacto:
+              {{ material.contactInput }}
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              Lote:
+              {{ material.lotInput }}
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              Fecha de recepción:
+              {{ material.dateReceptionInput | date: "shortDate" }}
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              Fecha de caducidad:
+              {{ material.dateExpirationInput | date: "shortDate" }}
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              Cantidad recepcionada:
+              {{ material.quantityReceivedInput }}
+              {{ material.unitMeasurementInput | uppercase }}
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Trazabilidad interna </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <div mat-subheader>Producto</div>
+        <mat-list-item>
+          {{ document?.internalTraceability?.productNameInput }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Fecha lote</div>
+        <mat-list-item>
+          {{ document?.internalTraceability?.dateLotInput | date: "shortDate" }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Fecha caducidad</div>
+        <mat-list-item>
+          {{ document?.internalTraceability?.dateExpirationInput | date: "shortDate" }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Vida útil del producto (días)</div>
+        <mat-list-item>
+          {{ document?.internalTraceability?.productUsefulLifeInput }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Fecha de fabricación</div>
+        <mat-list-item>
+          {{ document?.internalTraceability?.dateManufacturingInput | date: "shortDate" }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Cantidad fabricadas (cajas)</div>
+        <mat-list-item>
+          {{ document?.internalTraceability?.quantityManufacturingInput}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Trazabilidad hacia adelante </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <div mat-subheader>Entrega (cajas)</div>
+        <mat-list-item>
+          {{ document?.forwardTraceability?.boxInput }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Cliente</div>
+        <mat-list-item>
+          {{ document?.forwardTraceability?.clientDescriptionInput}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Código cliente</div>
+        <mat-list-item>
+          {{ document?.forwardTraceability?.clientCodeInput}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Fecha entrega</div>
+        <mat-list-item>
+          {{ document?.forwardTraceability?.dateInput | date: "shortDate" }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Matrícula automóvil</div>
+        <mat-list-item>
+          {{ document?.forwardTraceability?.carRegistrationInput }}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Nº Albarán</div>
+        <mat-list-item>
+          {{ document?.forwardTraceability?.deliveryNoteInput}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <div mat-subheader>Diferencia expendido/fabricado</div>
+        <mat-list-item>
+          {{ document?.forwardTraceability?.differenceInput}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

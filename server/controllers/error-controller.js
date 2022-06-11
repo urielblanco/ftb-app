@@ -24,7 +24,6 @@ const handleValidatorErrorDB = (err) => {
 };
 
 const globalErrorHandler = (err, req, res, next) => {
-    console.log('entro');
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 
@@ -32,7 +31,15 @@ const globalErrorHandler = (err, req, res, next) => {
 
     if (error.name === 'ValidationError') error = handleValidatorErrorDB(error);
 
-    sendErrorProd(error, req, res);
+    if (req.originalUrl.startsWith('/api')) {
+        return res.status(err.statusCode).json({
+            status: err.status,
+            error: err,
+            message: err.message,
+            stack: err.stack
+        });
+    }
+   // if (process.NODE_ENV === 'production') sendErrorProd(error, req, res);
 };
 
 export { globalErrorHandler };

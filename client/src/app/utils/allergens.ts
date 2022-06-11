@@ -1,0 +1,15 @@
+export const allergensList: Array<string> = [
+  'Cereales que contengan gluten',
+  'Huevos y productos a base de huevo',
+  'Cacahuetes y productos a base de cacahuetes',
+  'Soja y productos a base de soja (trazas)',
+  'Leche y sus derivados',
+  'Fruta de cáscara: almendras, avellanas, nueces, anacardos, macadamias y productos derivados',
+  'Semillas de sésamo y productos a base de sus semillas (trazas)',
+  'Apio y productos derivados',
+  'Anhídrido sulfuroso y sulfitos en concentraciones superiores a 10 mg/kg o 10 ml/l expresado como SO2',
+  'Altramuces y productos derivados',
+  'Moluscos y productos derivados',
+  'Crustáceos y productos derivados',
+  'Pescado y productos derivados',
+];

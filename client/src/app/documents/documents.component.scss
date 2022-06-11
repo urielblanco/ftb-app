@@ -1,0 +1,46 @@
+table {
+  width: 100%;
+  padding-top: 1rem;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: auto;
+}
+
+.mat-column-state {
+  width: 5%;
+}
+.mat-column-description {
+  width: 75%;
+}
+.mat-column-actions {
+  width: 20%;
+}
+
+.table-container {
+  position: relative;
+  margin-top: 2rem;
+}
+
+.fab {
+  position: absolute;
+}
+
+.fab--add {
+  right: 0.5rem;
+  top: -1.8rem;
+}
+
+.green {
+  color: lightgreen;
+}
+
+.grey {
+  color: grey;
+}
