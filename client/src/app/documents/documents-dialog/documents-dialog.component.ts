@@ -13,7 +13,7 @@ export class DocumentsDialogComponent {
   name: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    this.qrCode = `${environment.apiUrl}/documents/${data.id}`;
+    this.qrCode = `${environment.frontUrl}/documents/${data.id}`;
     this.name = data.name;
   }
 }

@@ -69,11 +69,13 @@ const documentSchema = new mongoose.Schema({
         dateInput: Date,
         deliveryNoteInput: Number,
         differenceInput: String
-    }
+    },
+    updateAt: Date
 });
 
 documentSchema.pre('save', function (next) {
     this.slug = slugify(this.technicalSheet.descriptionInput, { lower: true });
+    this.updateAt = Date.now();
     next();
 });
 

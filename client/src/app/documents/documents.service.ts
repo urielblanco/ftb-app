@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -17,7 +18,17 @@ export class DocumentsService {
   }
 
   getDocuments() {
-    return this.http.get(`${environment.apiUrl}/documents`);
+    return this.http.get(`${environment.apiUrl}/documents`).pipe(
+      map((response: any) => {
+        console.log(response);
+        response.data.documents = response.data.documents.sort(
+          (a: any, b: any) =>
+            new Date(b.updateAt).getTime() - new Date(a.updateAt).getTime()
+        );
+
+        return response;
+      })
+    );
   }
 
   getDocument(id: string) {
