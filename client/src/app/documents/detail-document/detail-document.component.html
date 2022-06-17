@@ -20,9 +20,9 @@
         <ng-container *ngIf="document?.technicalSheet?.allergens.length > 0">
           <div mat-subheader>Ingredientes alergénicos</div>
           <mat-list-item
-            *ngFor="let index of document?.technicalSheet?.allergens"
+            *ngFor="let allegern of document?.technicalSheet?.allergens"
           >
-            {{ allergensList[index] }}
+            {{ allergensList[allegern.index].name }}
           </mat-list-item>
           <mat-divider></mat-divider>
         </ng-container>
@@ -186,6 +186,21 @@
           {{ document?.forwardTraceability?.differenceInput }}
         </mat-list-item>
       </mat-list>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Modificaciones del producto</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container *ngIf="history.length > 0">
+        <mat-list>
+          <div mat-subheader>Historial</div>
+          <mat-list-item *ngFor="let doc of history">
+            Fecha: {{ doc.started | date: "short" }}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
+      </ng-container>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

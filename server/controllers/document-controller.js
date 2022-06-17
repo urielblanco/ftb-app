@@ -16,7 +16,7 @@ const createDocument = (req, res) => {
     });
 };
 
-const updateDocument = catchAsync(async (req, res) => {
+const updateDocument = catchAsync(async (req, res, next) => {
     const doc = await Document.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
@@ -81,7 +81,8 @@ const getDocumentHistory = catchAsync(async (req, res, next) => {
     const doc = await provenDB.db.command({
         docHistory: {
             collection: 'documents',
-            filter: { slug: req.params.id }
+            filter: { slug: req.params.id },
+            projection: { slug: 1 }
         }
     });
 
@@ -97,4 +98,52 @@ const getDocumentHistory = catchAsync(async (req, res, next) => {
     });
 });
 
-export { createDocument, getAllDocuments, updateDocument, getDocument, getDocumentsHistory, getDocumentHistory };
+const sendProof = catchAsync(async (req, res, next) => {
+    const db = await provenDB.db.command({
+        getVersion: 1
+    });
+
+    const proof = await provenDB.db.command({ submitProof: db.version });
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            proof
+        }
+    });
+});
+
+const getProof = catchAsync(async (req, res, next) => {
+    const proof = await provenDB.db.command({
+        getProof: req.params.id
+    });
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            proof
+        }
+    });
+});
+
+const getAllProofs = catchAsync(async (req, res, next) => {
+    const proofs = await provenDB.db.collection('_provendb_versionProofs').find({ status: 'valid' }).toArray();
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            proofs
+        }
+    });
+});
+export {
+    createDocument,
+    getAllDocuments,
+    updateDocument,
+    getDocument,
+    getDocumentsHistory,
+    getDocumentHistory,
+    sendProof,
+    getProof,
+    getAllProofs
+};

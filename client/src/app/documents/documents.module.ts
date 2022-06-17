@@ -9,9 +9,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DocumentsService } from './documents.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DetailDocumentComponent } from './detail-document/detail-document.component';
+import { EditDocumentComponent } from './edit-document/edit-document.component';
+import { QRCodeModule } from 'angularx-qrcode';
+import { DocumentsDialogComponent } from './documents-dialog/documents-dialog.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
-  declarations: [DocumentsComponent, CreateDocumentComponent, DetailDocumentComponent],
+  declarations: [
+    DocumentsComponent,
+    CreateDocumentComponent,
+    DetailDocumentComponent,
+    EditDocumentComponent,
+    DocumentsDialogComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -19,6 +29,8 @@ import { DetailDocumentComponent } from './detail-document/detail-document.compo
     CoreModule,
     DocumentsRoutingModule,
     HttpClientModule,
+    QRCodeModule,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [DocumentsService],
 })

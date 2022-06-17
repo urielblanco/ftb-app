@@ -8,9 +8,11 @@ import { NavbarService } from '../core/services/navbar.service';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { DocumentsService } from './documents.service';
+import { DocumentsDialogComponent } from './documents-dialog/documents-dialog.component';
 
 export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
+  id: string;
+  name: string;
 }
 @Component({
   selector: 'app-documents',
@@ -20,6 +22,7 @@ export interface DialogData {
 export class DocumentsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['state', 'description', 'actions'];
   dataSource: any;
+  qrCode: string = 'hola';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -31,14 +34,13 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   constructor(
     private navbarService: NavbarService,
     private router: Router,
-    private authService: AuthService,
+    public authService: AuthService,
     private documentsService: DocumentsService,
     public dialog: MatDialog
   ) {
     this.isAuthenticated = this.authService.isAuthenticated();
 
     this.navbarService.setModeNavigator('Documentos');
-    // Assign the data to the data source for the table to render
   }
 
   ngOnInit(): void {
@@ -53,10 +55,11 @@ export class DocumentsComponent implements OnInit, OnDestroy {
       });
   }
 
-  openDialog() {
-    this.dialog.open(DocumentsDialog, {
+  openDialog(product: any) {
+    this.dialog.open(DocumentsDialogComponent, {
       data: {
-        animal: 'panda',
+        id: product._id,
+        name: product.technicalSheet.descriptionInput,
       },
     });
   }
@@ -74,15 +77,12 @@ export class DocumentsComponent implements OnInit, OnDestroy {
     }
   }
 
+  goDetail(document: any) {
+    this.documentsService.documentSelected = document;
+    this.router.navigate(['documents',document._id, 'edit']);
+  }
+
   ngOnDestroy(): void {
     this.documentsSubscription.unsubscribe();
   }
-}
-
-@Component({
-  selector: 'qr-code-dialog',
-  templateUrl: 'documents-dialog.html',
-})
-export class DocumentsDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 }

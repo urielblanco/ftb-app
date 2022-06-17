@@ -1,0 +1,41 @@
+.m-top {
+  margin-top: 1rem;
+}
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+  width: 100%;
+}
+.stepper__title {
+  margin: 1rem 0;
+}
+
+.stepper__add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepper__divider {
+  margin: 1rem 0;
+  mat-divider {
+    margin-bottom: 1rem;
+  }
+}
+
+.stepper__list {
+  padding-left: 1rem;
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.stepper__buttons-container {
+  display: flex;
+  column-gap: 1rem;
+}

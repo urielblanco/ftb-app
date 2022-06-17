@@ -2,20 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavbarService } from 'src/app/core/services/navbar.service';
 import { DocumentsService } from '../documents.service';
-import { ToastrService } from 'ngx-toastr';
 
 import { allergensList } from '../../utils/allergens';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription, switchMap, zip } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { Router } from '@angular/router';
-
-import { zip } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-create-document',
-  templateUrl: './create-document.component.html',
-  styleUrls: ['./create-document.component.scss'],
+  selector: 'app-edit-document',
+  templateUrl: './edit-document.component.html',
+  styleUrls: ['./edit-document.component.scss'],
 })
-export class CreateDocumentComponent implements OnInit {
+export class EditDocumentComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -23,15 +22,20 @@ export class CreateDocumentComponent implements OnInit {
 
   allergensList = allergensList.slice();
 
+  subscription: Subscription;
+
+  document: any;
+
   constructor(
     private navbarService: NavbarService,
     private authService: AuthService,
     private fb: FormBuilder,
     private documentsService: DocumentsService,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router
   ) {
-    this.navbarService.setModeEditor('Cargar Trazabilidad');
+    this.navbarService.setModeEditor('Editar Trazabilidad');
   }
 
   ngOnInit(): void {
@@ -76,7 +80,7 @@ export class CreateDocumentComponent implements OnInit {
       differenceInput: [''],
     });
 
-    const material = this.fb.control({
+    /*     const material = this.fb.control({
       nameInput: 'Harina Silo 8',
       locationInput: 'Silo 8',
       providerInput: 'Harinera Vilafranquina',
@@ -88,7 +92,19 @@ export class CreateDocumentComponent implements OnInit {
       unitMeasurementInput: 'Kg',
     });
 
-    this.rawMaterials.push(material);
+    this.rawMaterials.push(material); */
+
+    this.subscription = this.subscription = this.route.paramMap
+      .pipe(
+        switchMap((params) =>
+          this.documentsService.getDocument(params.get('id')!)
+        )
+      )
+      .subscribe((response: any) => {
+        this.document = response.data.document;
+        console.log(this.document);
+        this.setDocumentForms();
+      });
   }
 
   get ingredients() {
@@ -108,14 +124,12 @@ export class CreateDocumentComponent implements OnInit {
 
     this.ingredients.push(ingredient);
     this.firstFormGroup.get('ingredientInput')?.setValue('');
-    console.log(this.ingredients);
   }
 
   addAllergen(allergenObj: any) {
     const allergen = this.fb.control(allergenObj);
 
     this.allergens.push(allergen);
-    console.log(allergen);
   }
 
   addRawMaterial() {
@@ -155,16 +169,15 @@ export class CreateDocumentComponent implements OnInit {
     this.allergensList[index].value = !this.allergensList[index].value;
   }
 
-  deleteIngredient(index: number) {
-    this.ingredients.removeAt(index);
-  }
-
   deleteRawMaterial(index: number) {
     this.rawMaterials.removeAt(index);
   }
 
+  deleteIngredient(index: number) {
+    this.ingredients.removeAt(index);
+  }
+
   saveForm() {
-    if (this.firstFormGroup.invalid) return;
     console.log(this.firstFormGroup.value);
     console.log(this.secondFormGroup.value);
     console.log(this.thirdFormGroup.value);
@@ -175,31 +188,143 @@ export class CreateDocumentComponent implements OnInit {
     });
 
     this.documentsService
-      .createDocument({
-        technicalSheet: this.firstFormGroup.value,
-        backwardTraceability: this.secondFormGroup.value,
-        internalTraceability: this.thirdFormGroup.value,
-        forwardTraceability: this.fourthFormGroup.value,
-        user: this.authService.user?._id,
-      })
+      .updateDocument(
+        {
+          technicalSheet: this.firstFormGroup.value,
+          backwardTraceability: this.secondFormGroup.value,
+          internalTraceability: this.thirdFormGroup.value,
+          forwardTraceability: this.fourthFormGroup.value,
+          user: this.authService.user?._id,
+        },
+        this.document._id
+      )
       .subscribe((data) => {
-        this.toastr.success('Producto guardado!');
+        this.toastr.success('Producto actualizado!');
         this.router.navigate(['/documents']);
       });
+  }
+
+  private setDocumentForms() {
+    this.setFirstForm();
+    this.setSecondForm();
+    this.setThirdForm();
+
+    this.setFouthForm();
+  }
+
+  private setFouthForm() {
+    this.fourthFormGroup
+      .get('boxInput')
+      ?.setValue(this.document.forwardTraceability?.boxInput);
+
+    this.fourthFormGroup
+      .get('clientDescriptionInput')
+      ?.setValue(this.document.forwardTraceability?.clientDescriptionInput);
+
+    this.fourthFormGroup
+      .get('clientCodeInput')
+      ?.setValue(this.document.forwardTraceability?.clientCodeInput);
+
+    this.fourthFormGroup
+      .get('dateInput')
+      ?.setValue(this.document.forwardTraceability?.dateInput);
+
+    this.fourthFormGroup
+      .get('carRegistrationInput')
+      ?.setValue(this.document.forwardTraceability?.carRegistrationInput);
+
+    this.fourthFormGroup
+      .get('deliveryNoteInput')
+      ?.setValue(this.document.forwardTraceability?.deliveryNoteInput);
+
+    this.fourthFormGroup
+      .get('differenceInput')
+      ?.setValue(this.document.forwardTraceability?.differenceInput);
+  }
+
+  private setThirdForm() {
+    this.thirdFormGroup
+      .get('productNameInput')
+      ?.setValue(this.document.internalTraceability?.productNameInput);
+
+    this.thirdFormGroup
+      .get('dateLotInput')
+      ?.setValue(this.document.internalTraceability?.dateLotInput);
+
+    this.thirdFormGroup
+      .get('dateExpirationInput')
+      ?.setValue(this.document.internalTraceability?.dateExpirationInput);
+
+    this.thirdFormGroup
+      .get('productUsefulLifeInput')
+      ?.setValue(this.document.internalTraceability?.productUsefulLifeInput);
+
+    this.thirdFormGroup
+      .get('dateManufacturingInput')
+      ?.setValue(this.document.internalTraceability?.dateManufacturingInput);
+
+    this.thirdFormGroup
+      .get('quantityManufacturingInput')
+      ?.setValue(
+        this.document.internalTraceability?.quantityManufacturingInput
+      );
+  }
+
+  private setSecondForm() {
+    for (const rawMat of this.document.backwardTraceability?.rawMaterials) {
+      const material = this.fb.control({
+        nameInput: rawMat.nameInput,
+        locationInput: rawMat.locationInput,
+        providerInput: rawMat.providerInput,
+        contactInput: rawMat.contactInput,
+        lotInput: rawMat.lotInput,
+        dateReceptionInput: rawMat.dateReceptionInput,
+        dateExpirationInput: rawMat.dateExpirationInput,
+        quantityReceivedInput: rawMat.quantityReceivedInput,
+        unitMeasurementInput: rawMat.unitMeasurementInput,
+      });
+
+      this.rawMaterials.push(material);
+    }
+  }
+
+  private setFirstForm() {
+    this.firstFormGroup
+      .get('descriptionInput')
+      ?.setValue(this.document.technicalSheet?.descriptionInput);
+
+    for (const ingredient of this.document.technicalSheet?.ingredients) {
+      this.addIngredient(ingredient);
+    }
+
+    for (const allergen of this.document.technicalSheet?.allergens) {
+      this.allergensList[allergen.index].value = allergen.value;
+    }
+
+    this.firstFormGroup
+      .get('conditionsInput')
+      ?.setValue(this.document.technicalSheet?.conditionsInput);
+
+    this.firstFormGroup
+      .get('usefulLifeInput')
+      ?.setValue(this.document.technicalSheet?.usefulLifeInput);
   }
 
   signBlockchain() {
     if (this.firstFormGroup.invalid) return;
 
     const result$ = zip(
-      this.documentsService.createDocument({
-        technicalSheet: this.firstFormGroup.value,
-        backwardTraceability: this.secondFormGroup.value,
-        internalTraceability: this.thirdFormGroup.value,
-        forwardTraceability: this.fourthFormGroup.value,
-        user: this.authService.user?._id,
-        state: 'blockchain',
-      }),
+      this.documentsService.updateDocument(
+        {
+          technicalSheet: this.firstFormGroup.value,
+          backwardTraceability: this.secondFormGroup.value,
+          internalTraceability: this.thirdFormGroup.value,
+          forwardTraceability: this.fourthFormGroup.value,
+          user: this.authService.user?._id,
+          state: 'blockchain',
+        },
+        this.document._id
+      ),
       this.documentsService.signInBlockchain()
     );
 

@@ -16,6 +16,7 @@ export class DetailDocumentComponent implements OnInit, OnDestroy {
   documentId: string | null;
   document: any;
   allergensList = allergensList;
+  history: any[] = [];
 
   constructor(
     private navbarService: NavbarService,
@@ -30,10 +31,15 @@ export class DetailDocumentComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((params) =>
           this.documentsService.getDocument(params.get('id')!)
-        )
+        ),
+        switchMap((response: any) => {
+          this.document = response.data.document;
+
+          return this.documentsService.getDocumentHistory(this.document.slug);
+        })
       )
       .subscribe((response: any) => {
-        this.document = response.data.document;
+        this.history = response.data?.document?.history[0]?.versions;
       });
   }
 

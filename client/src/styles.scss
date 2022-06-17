@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
-
+@import "~ngx-toastr/toastr";
 html,
 body {
   height: 100%;
@@ -70,4 +70,12 @@ body {
 .dialog__title,
 .dialog__description {
   text-align: center;
+}
+
+.green {
+  color: lightgreen;
+}
+
+.grey {
+  color: grey;
 }

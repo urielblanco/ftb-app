@@ -53,9 +53,11 @@
         <h3 class="stepper__title">Ingredientes alergénicos</h3>
         <ng-container *ngFor="let allergen of allergensList; let i = index">
           <p class="stepper__checkbox">
-            <mat-checkbox (change)="toggleAllergen(i)">{{
-              allergen.name
-            }}</mat-checkbox>
+            <mat-checkbox
+              (change)="toggleAllergen(i)"
+              [checked]="allergen.value"
+              >{{ allergen.name }}</mat-checkbox
+            >
           </p>
         </ng-container>
         <mat-form-field appearance="fill">
@@ -407,7 +409,8 @@
             showCancelButton: true,
             confirmButtonColor: '#3f51b5',
             cancelButtonColor: '#ff4081',
-            confirmButtonText: 'Si, registrarlo!'
+            confirmButtonText: 'Si, registrarlo!',
+            cancelButtonText: 'Cancelar'
           }"
           (confirm)="signBlockchain()"
         >

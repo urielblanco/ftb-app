@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'documents', loadChildren: () => import('./documents/documents.module').then(m => m.DocumentsModule) }
+  { path: 'documents', loadChildren: () => import('./documents/documents.module').then(m => m.DocumentsModule) },
+  { path: 'blockchain', loadChildren: () => import('./blockchain/blockchain.module').then(m => m.BlockchainModule) }
 ];
 
 @NgModule({

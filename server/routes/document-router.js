@@ -7,8 +7,16 @@ documentRouter.route('/').get(documentController.getAllDocuments).post(documentC
 
 documentRouter.route('/history').get(documentController.getDocumentsHistory);
 
-documentRouter.route('/:id').put(documentController.updateDocument).get(documentController.getDocument);
+documentRouter
+    .route('/:id')
+    .put(documentController.updateDocument)
+    .get(documentController.getDocument)
+    .patch(documentController.updateDocument);
 
 documentRouter.route('/history/:id').get(documentController.getDocumentHistory);
+
+documentRouter.route('/proof/list').get(documentController.getAllProofs).post(documentController.sendProof);
+
+//documentRouter.route('/proof/:id').get(documentController.getProof);
 
 export { documentRouter };

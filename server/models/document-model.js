@@ -4,24 +4,28 @@ import slugify from 'slugify';
 
 const documentSchema = new mongoose.Schema({
     slug: {
-        type: String
+        type: String,
+        unique: true
     },
     state: {
         type: String,
         default: 'pending'
     },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: [true, 'Review must belong to a user']
+    },
     technicalSheet: {
         allergens: {
-            type: [Number],
+            type: [{ index: Number, value: Boolean }],
             default: []
         },
         conditionsInput: {
             type: String
         },
         descriptionInput: {
-            type: String,
-            unique: true,
-            required: [true, 'A product must have a description'],
+            type: String
         },
         ingredients: {
             type: [String],
@@ -73,6 +77,6 @@ documentSchema.pre('save', function (next) {
     next();
 });
 
-const Document = provenDB.model('document', documentSchema);
+const Document = provenDB.model('Document', documentSchema);
 
 export { Document };

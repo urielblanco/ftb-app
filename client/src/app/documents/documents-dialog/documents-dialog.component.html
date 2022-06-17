@@ -1,0 +1,12 @@
+<h1 mat-dialog-title class="dialog__title">{{ name }}</h1>
+<div mat-dialog-content>
+  <p class="dialog__description">Escanee el código con su dispositivo móvil:</p>
+
+  <div class="qr-code">
+    <qrcode
+      [qrdata]="qrCode"
+      [width]="256"
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
+  </div>
+</div>

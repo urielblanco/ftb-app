@@ -20,6 +20,16 @@
         <mat-icon mat-list-icon>assignment</mat-icon>
         Documentos
       </a>
+      <ng-container *ngIf="(isAuthenticated | async)">
+        <a
+          mat-list-item
+          routerLink="/blockchain"
+          routerLinkActive="active-link"
+        >
+          <mat-icon mat-list-icon>checklist</mat-icon>
+          Registros
+        </a>
+      </ng-container>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -37,7 +47,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
 
-      <span class="title">{{ navbarService.title$ | async}}</span>
+      <span class="title">{{ navbarService.title$ | async }}</span>
       <span class="spacer"></span>
       <button
         mat-icon-button

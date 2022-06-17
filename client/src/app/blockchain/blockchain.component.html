@@ -1,0 +1,26 @@
+<mat-selection-list *ngIf="proofs && proofs.length > 0" [multiple]="false">
+  <div mat-subheader>Estados en la blockchain</div>
+  <mat-list-option
+    *ngFor="let proof of proofs"
+    role="listoption"
+    [swal]="{
+      title: 'Quieres ir al registro en la blockchain?',
+      text: 'Será redirigido en una nueva pestaña.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3f51b5',
+      cancelButtonColor: '#ff4081',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'Cancelar'
+    }"
+    (confirm)="openProof(proof.anchorData.txnUri)"
+  >
+    <mat-icon
+      [ngClass]="proof.status === 'valid' ? 'green' : 'pending'"
+      mat-list-icon
+      >{{ proof.status === "valid" ? "verified" : "pending_actions" }}</mat-icon
+    >
+    <div mat-line>Fecha</div>
+    <div mat-line>{{ proof.submitted | date: "fullTime" }}</div>
+  </mat-list-option>
+</mat-selection-list>

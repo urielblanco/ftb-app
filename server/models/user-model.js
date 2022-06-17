@@ -30,6 +30,6 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const User = provenDB.model('user', userSchema);
+const User = provenDB.model('User', userSchema);
 
 export { User };
