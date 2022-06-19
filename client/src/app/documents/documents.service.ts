@@ -40,6 +40,6 @@ export class DocumentsService {
   }
 
   signInBlockchain() {
-    return this.http.post(`${environment.apiUrl}/documents/proof`, null);
+    return this.http.post(`${environment.apiUrl}/documents/proof/list`, null);
   }
 }
